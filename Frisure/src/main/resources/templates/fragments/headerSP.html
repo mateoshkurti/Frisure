@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.com">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="header">
+		<a href="/secure/serviceProvider" th:href="@{/secure/serviceProvider}">HOME</a>
+		| <a href="/secure/serviceProvider/appointment"
+			th:href="@{/secure/serviceProvider/appointment}">APPOINTMENTS</a> | <a
+			href="/secure/serviceProvider/insightsReviews"
+			th:href="@{/secure/serviceProvider/insightsReviews}">INSIGHTS</a> <a
+			href="/secure/serviceProvider/settings"
+			th:href="@{/secure/serviceProvider/settings}">Settings</a> <a
+			href="#" th:href="@{/logout}">Logout</a>
+	</div>
+</body>
+</html>

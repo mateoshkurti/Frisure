@@ -6,32 +6,39 @@
 </head>
 <body>
 	<header th:insert="fragments/headerHP.html :: header"></header>
-
+	
+	
 	<h1>Register Here!</h1>
 	<div id="error" class="error"></div>
-	<form name="form" action="#" th:action="@{/register}" method="post"
+	<form name="form" action="#" th:action="@{/registerSP}" method="post"
 		onsubmit="return verify()">
 		
 		<div id="auth">
 			Username: <input type="text" name="username" /><br> 
 			Email: <input type="email" name="email" /><br>
-			Re-enter Email: <input type="email" name="re-email" /><br>	
+			Re-enter Email: <input type="email" name="verifyEmail" /><br>	
 			Password: <input type="password" name="password" /><br>
 			Verify Password: <input type="password" name="verifyPassword" /><br>
 		</div>
 		
 		<div id="contactInfo">
-			First Name: <input type="text" name="firstName" /> <br>
-			Last Name:<input type="text" name="lastName" /> <br>
+			Salon Name:<input type="text" name="name" /> <br>
+			Your First Name: <input type="text" name="firstName" /> <br>
+			Your Last Name:<input type="text" name="lastName" /> <br>
 			Phone Number:<input type="number" name="phoneNumber" /> <br>
+			License ID:<input type="text" name="licenseID" /> <br>
+			<div id="salonAddress">
+			<h3 text-align="center">Salon Address</h3>
 			Street Address:<input type="text" name="streetAddress" /> <br>
 			City:<input type="text" name="city" /> <br>
 			Province:<input type="text" name="province" /> <br>
 			Country:<input type="text" name="country" /> <br>
 			Postal Code:<input type="text" name="postalCode" /> <br>
+			</div>
 		 </div>
 		  
 		 <input	type="submit" value="Add User">
 	</form>
+	
 </body>
 </html>

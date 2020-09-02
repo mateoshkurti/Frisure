@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.com">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="header">
+		<a href="/secure/user" th:href="@{/secure/user}">HOME</a> | 
+		<a href="{/secure/user/appointment" th:href="@{/secure/user/appointment}">APPOINTMENTS</a>
+		| <a href="/secure/user/user" th:href="@{/secure/user/user}">PROFILE</a>
+		<a href="/secure/user/settings" th:href="@{/secure/user/settings}">Settings</a>
+		<a href="#" th:href="@{/logout}">Logout</a>
+	</div>
+</body>
+</html>
