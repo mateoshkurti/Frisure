@@ -11,6 +11,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.frisure.beans.Addresses;
+import com.frisure.beans.Booking;
+import com.frisure.beans.Business;
+import com.frisure.beans.ContactInfo;
+import com.frisure.beans.Employees;
+import com.frisure.beans.Haircuts;
+import com.frisure.beans.Ratings;
+import com.frisure.beans.Service_Booking;
+import com.frisure.beans.Services;
 import com.frisure.beans.User;
 
 @Repository
@@ -53,9 +62,8 @@ public class DatabaseAccess {
 		for (Map<String, Object> row : rows) {
 			roles.add((String) row.get("userType"));
 		}
-		for(String r:roles)
-		{
-			System.out.println("DA. ROLES ARE"+r);
+		for (String r : roles) {
+			System.out.println("DA. ROLES ARE" + r);
 		}
 		return roles;
 
@@ -104,4 +112,137 @@ public class DatabaseAccess {
 		jdbc.update(query, parameters);
 	}
 
+	public Business getBusinessByOwner(String username) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Business where owner = :username;";
+		parameters.addValue("username", username);
+		List<Business> b = jdbc.query(query, parameters, new BeanPropertyRowMapper<Business>(Business.class));
+		if(b.size()>0)
+		return b.get(0);
+		else
+			return null;
+	}
+
+	public Business getBusinessByID(Long businessID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Business where businessID = :businesID;";
+		parameters.addValue("businessID", businessID);
+		List<Business> b = jdbc.query(query, parameters, new BeanPropertyRowMapper<Business>(Business.class));
+		if(b.size()>0)
+			return b.get(0);
+			else
+				return null;
+	}
+
+	public Addresses getAddressesByBusinessID(Long businessID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Addresses where businessID = :businessID;";
+		parameters.addValue("businessID", businessID);
+		List<Addresses> b = jdbc.query(query, parameters, new BeanPropertyRowMapper<Addresses>(Addresses.class));
+		if(b.size()>0)
+			return b.get(0);
+			else
+				return null;
+	}
+
+	public List<Booking> getBusinessBookingList(Long businessID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Booking where businessID = :businesID;";
+		parameters.addValue("businessID", businessID);
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Booking>(Booking.class));
+	}
+
+	public Booking getBookingByBookingID(Long bookingID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Booking where bookingID = :bookingID;";
+		parameters.addValue("bookingID", bookingID);
+		List <Booking> b= jdbc.query(query, parameters, new BeanPropertyRowMapper<Booking>(Booking.class));
+		if(b.size()>0)
+			return b.get(0);
+			else
+				return null;
+	}
+
+	public List<Ratings> getReviewsByBusiness(Long businessID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Ratings where businessID = :businesID;";
+		parameters.addValue("businessID", businessID);
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Ratings>(Ratings.class));
+	}
+
+	public List <Services> getServicesByBusinessID(Long businessID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Services where businessID = :businesID;";
+		parameters.addValue("businessID", businessID);
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Services>(Services.class));
+	}
+
+	public ContactInfo getContactInfoByUsername(String username) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from ContactInfo where username = username;";
+		parameters.addValue("username",username);
+		List <ContactInfo> c= jdbc.query(query, parameters, new BeanPropertyRowMapper<ContactInfo>(ContactInfo.class));
+		if(c.size()>0)
+			return c.get(0);
+			else
+				return null;
+	}
+
+	public List<Booking> getAppointmentsByUsername(String username) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Booking where username = :username;";
+		parameters.addValue("username", username);
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Booking>(Booking.class));
+	}
+
+	public List<Service_Booking> getBookedServices(Long bookingID) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Service_Booking where bookingID = :bookingID;";
+		parameters.addValue("bookingID", bookingID);
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Service_Booking>(Service_Booking.class));
+	}
+
+	public List<Employees> getBarbers() {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Employees;";
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Employees>(Employees.class));
+
+	}
+
+	public List<Haircuts> getHaircuts() {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Haircuts;";
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Haircuts>(Haircuts.class));
+
+	}
+
+	public List<Business> getBusinessesByHairstyle(String haircutName) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Businesses where businessID in (Select businessID from Haircuts "
+				+ "where name= :haircutName);";
+		parameters.addValue("haircutName", haircutName);
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Business>(Business.class));
+	}
+
+	public List<Business> getBusinesses() {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		String query = "Select * from Businesses;";
+		return jdbc.query(query, parameters, new BeanPropertyRowMapper<Business>(Business.class));
+	}
+
+	public void updateUser(String username, String password) {
+
+	}
+
+	public void updateUserInfo(String username, String firstName, String lastName) {
+
+	}
+
+	public void updateContactInfo(String username, Long phoneNumber, String email, String postalCode) {
+
+	}
+
+	public void updateAddress(String streetAddress, String city, String province, String country, String postalCode) {
+
+	}
 }
