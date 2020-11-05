@@ -5,8 +5,27 @@
 <title>Insert title here</title>
 </head>
 <body>
-<header th:insert="fragments/headerHP.html :: header"></header>
-<p><a href="login">Login</a> if you already have an account</p>
-<p><a href="userType">Register</a> if you want to create an account</p>
+	<header th:insert="fragments/headerHP.html :: header"></header>
+	<Div>Log In Page</Div>
+
+	<form method="post" th:action="@{/login}">
+		<div th:if="${param.error}">
+			<div class="error">Invalid username or password.</div>
+		</div>
+		<div th:if="${param.logout}">
+			<div class="error">You have been logged out.</div>
+		</div>
+
+		<div>
+			Username: <input type="text" name="username" /><br> Password: <input
+				type="password" name="password" /><br> <input type="submit"
+				name="login-submit" value="Log In" />
+		</div>
+		<p>
+			If you want to register, click <a href="/secure"
+				th:href="@{/register}">here</a>.
+		</p>
+	</form>
+
 </body>
 </html>

@@ -97,10 +97,7 @@ public class HomeController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
+
 
 	@GetMapping("/permission-denied")
 	public String permissionDenied() {
