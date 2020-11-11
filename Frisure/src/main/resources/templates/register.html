@@ -11,7 +11,9 @@
 	<div id="error" class="error"></div>
 	<form name="form" action="#" th:action="@{/register}" method="post"
 		onsubmit="return verify()">
-		
+		<div th:if="${param.loginError}">
+			<div class="error">Invalid username or password.</div>
+		</div>
 		<div id="auth">
 			Username: <input type="text" name="username" /><br> 
 			Email: <input type="email" name="email" /><br>
@@ -19,7 +21,9 @@
 			Password: <input type="password" name="password" /><br>
 			Verify Password: <input type="password" name="verifyPassword" /><br>
 		</div>
-		
+		<div th:if="${param.credErr}">
+			<div class="error">Invalid username or password.</div>
+		</div>
 		<div id="contactInfo">
 			First Name: <input type="text" name="firstName" /> <br>
 			Last Name:<input type="text" name="lastName" /> <br>

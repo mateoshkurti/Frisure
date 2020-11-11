@@ -67,11 +67,18 @@ public class HomeController {
 			@RequestParam String firstName, @RequestParam String lastName, @RequestParam Long phoneNumber,
 			@RequestParam String streetAddress, @RequestParam String city, @RequestParam String province,
 			@RequestParam String country, @RequestParam String postalCode) {
-
-		da.addUser(username, password, "ROLE_user");
+		try {
+			da.addUser(username, password, "ROLE_user");
+		} catch (Exception e) {
+			return "/register?loginError";
+		}
+		try {
 		da.addAddress(streetAddress, city, province, country, postalCode);
 		da.addUserInfo(username, firstName, lastName);
-		da.addContactInfo(username, phoneNumber, email, postalCode);
+		da.addContactInfo(username, phoneNumber, email, postalCode);}
+		catch(Exception e) {
+			return "/register?credErr";
+		}
 
 		return "redirect:/";
 	}
@@ -96,8 +103,6 @@ public class HomeController {
 
 		return "redirect:/";
 	}
-
-
 
 	@GetMapping("/permission-denied")
 	public String permissionDenied() {
@@ -159,7 +164,7 @@ public class HomeController {
 		String username = auth.getName();
 		Long businessID = da.getBusinessByOwner(username).getBusinessID();
 		Business salon = da.getBusinessByID(businessID);
-		List <Services> salonServices = da.getServicesByBusinessID(businessID);
+		List<Services> salonServices = da.getServicesByBusinessID(businessID);
 		model.addAttribute("salon", salon);
 		model.addAttribute("salonServices", salonServices);
 		return "/secure/serviceProvider/services";
